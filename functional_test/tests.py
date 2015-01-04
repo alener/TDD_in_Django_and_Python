@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from django.test import LiveServerTestCase
-import unittest
+
 
 class NewVisitorTest(LiveServerTestCase):
 
@@ -57,8 +57,9 @@ class NewVisitorTest(LiveServerTestCase):
 
         
         # The page updates again, and now shows both items on her list
-        self.check_for_row_in_list_table('1: Buy peacock feathers')
         self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
+        self.check_for_row_in_list_table('1: Buy peacock feathers')
+        
 
         ## We use a new browser session to make sure that no information
         ## of Edith's is coming through from cookies etc 
@@ -68,9 +69,9 @@ class NewVisitorTest(LiveServerTestCase):
         # Francis visits the home page.  There is no sign of Edith's
         # list
         self.browser.get(self.live_server_url)
-        page_text = self.browser.find_element_by_id('id_new_item')
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
-
+        self.assertNotIn('make a fly', page_text)
         # Francis starts a new list by entering a new item. He
         # is less interesting than Edith...
         inputbox = self.browser.find_element_by_id('id_new_item')
@@ -91,8 +92,3 @@ class NewVisitorTest(LiveServerTestCase):
 
 
 
-
-        self.fail('Finish the test!')
-        # She visits that URL - her to-do list is still there.
-
-        # Satisfied, she goes back to sleep
