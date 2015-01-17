@@ -59,6 +59,9 @@ WSGI_APPLICATION = 'superlists.wsgi.application'
 
 DATABASES['default'] = dj_database_url.config()
 
+# Enable Connection Pooling
+DATABASES['default']['ENGINE'] = 'django_postgrespool'
+
 #DATABASES = {
   #  'default': {
    #     'ENGINE': 'django.db.backends.sqlite3',
@@ -80,6 +83,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 # Static files (CSS, JavaScript, Images)
